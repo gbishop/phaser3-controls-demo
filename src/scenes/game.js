@@ -40,6 +40,7 @@ export class Game extends Scene {
         this.start_alien_Y = this.norm_Y - 300; //outside of screen
 
         this.rocket_die_up = false;
+        this.readyLaunch = true;
     }
 
     create(){
@@ -154,6 +155,7 @@ export class Game extends Scene {
     
                     // After movement reset alien so the next alien comes
                     this.resetAlien();
+                    this.readyLaunch = true;
                     if(this.isGameOver){
                         this.resetGame();
                     }
@@ -170,6 +172,7 @@ export class Game extends Scene {
     
                     // After movement reset alien so the next alien comes
                     this.resetAlien();
+                    this.readyLaunch = true;
                     if(this.isGameOver){
                         this.resetGame();
                     }
@@ -197,8 +200,12 @@ export class Game extends Scene {
     }
 
     launchRocket(){
-        // Launching means decrease the y velocity
-        this.rocket.body.setVelocity(0, -2000);
+        // readyLaunch used to hold up pressing repeatedly
+        if(this.readyLaunch && !this.isGameOver){ 
+            this.readyLaunch = false;
+            // Launching means decrease the y velocity
+            this.rocket.body.setVelocity(0, -2000);
+        }
     }
 
     checkRocketOutOfBound(){
@@ -217,7 +224,7 @@ export class Game extends Scene {
             this.canUpdateAlien = false;
             this.rocket.body.setVelocity(0);
             this.alien.y = this.start_alien_Y;
-            this.time.delayedCall(200, this.resetRocket, [], this);
+            this.time.delayedCall(500, this.resetRocket, [], this);
         }
     }
 
@@ -260,7 +267,7 @@ export class Game extends Scene {
         this.cameras.main.shake(100, 0.01, 0.01);
 
         this.alien.y = this.start_alien_Y;
-        this.time.delayedCall(200, this.resetRocket, [], this);
+        this.time.delayedCall(500, this.resetRocket, [], this);
         //this.alien.destroy();
         //this.rocket.destroy();
     }
