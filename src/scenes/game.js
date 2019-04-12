@@ -33,8 +33,8 @@ export class Game extends Scene {
         this.cameraRect = null;
         console.log('Game constructor');
 
-        this.norm_X = 270/2; //set the normal X position centering
-        this.norm_Y = 480/2; //set the normal Y position centering
+        this.norm_X = 0; //set the normal X position centering
+        this.norm_Y = 0; //set the normal Y position centering
 
         this.start_rocket_Y = this.norm_Y + 140;
         this.start_alien_Y = this.norm_Y - 300; //outside of screen
@@ -106,15 +106,16 @@ export class Game extends Scene {
         // This is how we get the main camera
         let cam = this.cameras.main;
         // Set its viewport as same as our game dimension
-        cam.setViewport(0,0,270,480);
-        //cam.setViewport(0,0,window.innerWidth, window.innerHeight);
+        //cam.setViewport(0,0,270,480);
+        cam.setViewport(0,0,window.innerWidth, window.innerHeight);
         // Center align the camera to occupy all our game objects
         cam.centerToBounds();
+        cam.setScroll(-window.innerWidth/2, -window.innerHeight/2);
         // Adjust the zoom such that it scales the game
         // just enough to clear out the black areas
-        //cam.zoom = Math.max(window.innerWidth/270, window.innerHeight/480);
+        // cam.zoom = Math.max(window.innerWidth/270, window.innerHeight/480);
         // If we want to fit our game inside, then use the min scale
-        //cam.zoom = Math.min(window.innerWidth/270, window.innerHeight/480)
+        cam.zoom = Math.min(window.innerWidth/270, window.innerHeight/480)
         
         /*this.cameraRect.x = cam.x;
         this.cameraRect.y = cam.y;
