@@ -110,7 +110,7 @@ export class Game extends Scene {
         cam.setViewport(0,0,window.innerWidth, window.innerHeight);
         // Center align the camera to occupy all our game objects
         cam.centerToBounds();
-        cam.setScroll(-window.innerWidth/2, -window.innerHeight/2);
+        cam.setScroll(-window.innerWidth/2 + this.norm_X, -window.innerHeight/2 + this.norm_Y);
         // Adjust the zoom such that it scales the game
         // just enough to clear out the black areas
         // cam.zoom = Math.max(window.innerWidth/270, window.innerHeight/480);
