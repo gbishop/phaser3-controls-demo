@@ -41,6 +41,11 @@ export class Game extends Scene {
 
         this.rocket_die_up = false;
         this.readyLaunch = true;
+
+        this.scoreText = null;
+        this.highScoreText = null;
+        this.highScore = 0;
+        this.score = 0;
     }
 
     create(){
@@ -94,6 +99,25 @@ export class Game extends Scene {
 
         // Listen for pointerdown event and launch the rocket
         this.input.on('pointerdown', this.launchRocket, this);
+
+        this.initUI();
+        this.resetScore();
+    }
+
+    initUI(){
+        this.scoreText = this.add.text(this.norm_X - 130, this.norm_Y - 224, 'Score: 0', {fontSize: '14px', fill: '#FFF'});
+        this.highScoreText = this.add.text(this.norm_X - 130, this.norm_Y - 205, 'Highscore: 0', {fontSize: '14px', fill: '#FFF'});
+    }
+    updateUI(){
+        this.scoreText.setText('Score: ' + this.score);
+        this.highScoreText.setText('Highscore: ' + this.highScore);
+    }
+    resetScore(){
+        if(this.highScore < this.score){
+           this.highScore = this.score; 
+        }
+        this.score = 0;
+        this.updateUI();
     }
 
     resize () {
@@ -212,7 +236,7 @@ export class Game extends Scene {
     checkRocketOutOfBound(){
         if(this.rocket.y <= -50 || this.rocket.y >= 500){
             console.log('game over');
-            this.isGameOver = true;
+            this.gameOver();
 
             if(this.rocket.y <= -50){
                 this.rocket_die_up = true;
@@ -247,6 +271,7 @@ export class Game extends Scene {
         this.alien.y = this.start_alien_Y;
 
         this.cameras.main.shake(100, 0.01, 0.01); // Duration, intensity, force
+        this.scoringPoin();
 
         this.time.delayedCall(200, this.resetRocket, [], this);
     }
@@ -256,7 +281,7 @@ export class Game extends Scene {
             return;
         }
         this.canUpdateAlien = false;
-        this.isGameOver = true;
+        this.gameOver();
         if(spike == this.topSpikes){
             this.rocket_die_up = true;
         }else{
@@ -277,8 +302,18 @@ export class Game extends Scene {
         this.isRocketResetting = true;
     }
 
+    scoringPoin(){
+        this.score++;
+        this.updateUI();
+    }
+
+    gameOver(){
+        this.isGameOver = true;
+    }
+
     resetGame(){
         this.isGameOver = false;
+        this.resetScore();
     }
 
     shutdown () {
