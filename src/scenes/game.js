@@ -136,7 +136,7 @@ export class Game extends Scene {
 
     // Listen for keydown event and pause time
     this.input.keyboard.on("keydown-P", e => {
-      this.scene.run("control");
+      this.scene.resume("control");
       this.scene.pause();
     });
 
