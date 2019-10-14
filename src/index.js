@@ -1,6 +1,7 @@
 import phaser from 'phaser';
 import { Preloader } from './scenes/preloader';
 import { Game } from './scenes/game';
+import { Control } from './scenes/control';
 
 const config = {
     type: phaser.AUTO,
@@ -11,7 +12,8 @@ const config = {
     parent: 'content',
     scene: [
         Preloader,
-        Game
+        Game,
+        Control
     ]
 }
 
